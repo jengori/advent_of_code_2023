@@ -4,7 +4,7 @@ from collections import defaultdict
 class Game:
 
     def __init__(self, s: str):
-        """creates a game object from a string of the kind contained in each line of input.txt"""
+        """creates a game object from a string of the format contained in each line of input.txt"""
         self.s = s
         self.round = 0
 
