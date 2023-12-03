@@ -1,9 +1,11 @@
+from collections import defaultdict
+
 with open("input.txt") as f:
     engine_schematic = [line.strip() for line in f.readlines()]
 
-
-# construct a list containing a dictionary for each number in the engine schematic.
-# Each dictionary contains the number's value, start position, and end position:
+# Construct a list containing a dictionary for each number in the engine schematic.
+# Each dictionary contains the number's value, start position, and end position
+# (start and end positions are matrix coordinates (i, j))
 
 numbers_in_engine_schematic = []
 
@@ -74,4 +76,33 @@ for number in numbers_in_engine_schematic:
     if number["is_part"]:
         result += number["value"]
 
-print(result)
+print(f"The answer to part 1 is {result}")
+
+
+# A gear is any * symbol that is adjacent to exactly two part numbers.
+# Its gear ratio is the result of multiplying those two numbers together.
+
+# Construct a dictionary of potential gears
+# Each entry in the dictionary has a key which is the position of an '*' in engine_schematic
+# and a value, which is an array containing the numbers that * is adjacent to
+
+potential_gears = defaultdict(list)
+
+for number in numbers_in_engine_schematic:
+    for neighbour in number["neighbours"]:
+        if engine_schematic[neighbour[0]][neighbour[1]] == "*":
+            potential_gears[(neighbour[0], neighbour[1])].append(number["value"])
+
+# Establish which of the 'potential gears' are actual gears, i.e. are adjacent to exactly two numbers,
+# and put these in an array called 'gears':
+
+gears = {entry: potential_gears[entry] for entry in potential_gears if len(potential_gears[entry]) == 2}
+
+# find the sum of the gear ratios (product of the two numbers the gear is adjacent to)
+sum_of_gear_ratios = 0
+
+for gear in gears:
+    gear_ratio = gears[gear][0] * gears[gear][1]
+    sum_of_gear_ratios += gear_ratio
+
+print(f"The answer to part 2 is {sum_of_gear_ratios}")
