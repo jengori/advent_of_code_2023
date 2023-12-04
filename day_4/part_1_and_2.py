@@ -7,11 +7,7 @@ def get_my_nums_list(s):
 
 
 def count_winning_nums(my_nums, winning_nums):
-    winning_nums_count = 0
-    for num in my_nums:
-        if num in winning_nums:
-            winning_nums_count += 1
-    return winning_nums_count
+    return len([num for num in my_nums if num in winning_nums])
 
 
 def calculate_score(winning_nums_count):
