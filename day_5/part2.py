@@ -56,6 +56,7 @@ def mapping(map_num, item_groups):
         mapped_groups = []
         item_groups_divided = divide_item_groups(map_num, item_groups)
         for group in item_groups_divided:
+            mapped = False
             for line in maps[map_titles[map_num]]:
                 source_start = line[1]
                 destination_start = line[0]
@@ -65,6 +66,10 @@ def mapping(map_num, item_groups):
                     mapped_group = \
                         [destination_start + (group[0]-source_start), destination_start + (group[1]-source_start)]
                     mapped_groups.append(mapped_group)
+                    mapped = True
+
+            if not mapped:
+                mapped_groups.append([group[0], group[1]])
 
         return mapping(map_num+1, mapped_groups)
 
