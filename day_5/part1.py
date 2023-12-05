@@ -20,8 +20,8 @@ def mapping(map_num, source_num):
             range_length = line[2]
 
             if source_num in range(source_start, source_start+range_length):
-                soil_number = destination_start + (source_num-source_start)
-                return mapping(map_num+1, soil_number)
+                item_number = destination_start + (source_num-source_start)
+                return mapping(map_num+1, item_number)
 
         return mapping(map_num+1, source_num)
 
