@@ -1,3 +1,6 @@
+import pygame
+import matplotlib.path
+import numpy
 import math
 
 directions_to_tiles = {"N": ["|", "7", "F", "S"],
@@ -62,4 +65,62 @@ while current_tile != starting_point:
     previous_tile = current_tile
     current_tile = loop[-1]
 
-print(math.floor(len(loop)/2))
+print(f"The answer to part 1 is {math.floor(len(loop)/2)}")
+
+loop = [(point[0]*2, point[1]*2) for point in loop]
+new_loop = []
+for i in range(len(loop)-1):
+    if loop[i][0]<loop[i+1][0]:
+        new_loop.append(loop[i])
+        new_loop.append((loop[i][0] + 1, loop[i][1]))
+
+    elif loop[i][0]>loop[i+1][0]:
+        new_loop.append(loop[i])
+        new_loop.append((loop[i][0] - 1, loop[i][1]))
+
+    elif loop[i][1]>loop[i+1][1]:
+        new_loop.append(loop[i])
+        new_loop.append((loop[i][0], loop[i][1] - 1))
+
+    elif loop[i][1] < loop[i+1][1]:
+        new_loop.append(loop[i])
+        new_loop.append((loop[i][0], loop[i][1] + 1))
+
+points = []
+for x in range(140):
+    for y in range(140):
+        if (x*2,y*2) not in new_loop:
+            points.append((x*2, y*2))
+
+p = matplotlib.path.Path(numpy.array(new_loop))
+contained = list(p.contains_points(numpy.array(points)))
+
+pygame.init()
+width = 3*280
+height = 3*280
+
+window = pygame.display.set_mode((width, height))
+
+for x in new_loop:
+    pygame.draw.rect(window, color="hotpink", rect=(x[0]*3, x[1]*3, 3, 3))
+
+result = 0
+for n in range(len(points)):
+    if contained[n]:
+        result += 1
+        pygame.draw.rect(window, color="chartreuse", rect=(points[n][0] * 3, points[n][1] * 3, 3, 3))
+
+print(f"The answer to part 2 is {result}")
+
+continue_game = True
+
+
+while continue_game:
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            continue_game = False
+
+    pygame.display.flip()
+
+pygame.quit()
