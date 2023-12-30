@@ -154,7 +154,6 @@ for line in data:
                                         poss_positions.append([x, y, z, v, w, u])
 
     result += len(poss_positions)
-    print(poss_positions)
 print(result)
 
 
