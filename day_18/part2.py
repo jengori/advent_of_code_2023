@@ -3,13 +3,13 @@ from shapely import Polygon
 with open("input.txt") as f:
     data = [line.strip() for line in f.readlines()]
 
-points = [[0, 0]]
-corners = [[0, 0]]
+directions = ["R", "D", "L", "U"]
+corners = [(0, 0)]
 edge_squares = 0
 
 for line in data:
-    direction = line.split(" ")[0]
-    number = int(line.split(" ")[1])
+    direction = directions[int(line.split(" ")[2][-2])]
+    number = int(line.split(" ")[2][2:-2], 16)
     edge_squares += number
 
     if direction == "R":
